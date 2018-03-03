@@ -128,12 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     uploadEl.addEventListener('click', () => {
         let fileReads = fileEl.files.map(file =>
-            return readFile(file).then(fileContent =>
+            return readFile(file).then(fileContent => {
                 recordings.push({
                     name: file.name.replace(/\.[\w]+$/, ''),
                     recording: JSON.parse(fileContent)
                 });
-            );
+            });
         );
 
         Promise.all(fileReads).then(() => {
