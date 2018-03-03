@@ -1,5 +1,13 @@
+Object.prototype.forEach = function(func) {
+    for (var i = 0; i < this.length; i++) {
+		func.call(this, this[i]);
+    }
+};
+
 let nameEl;
 let saveEl;
+let fileEl;
+let uploadEl;
 let listEl;
 let clearEl;
 
@@ -23,6 +31,15 @@ let getBsvExport = () => {
             });
         });
     });
+};
+
+let download = (fileName, json) => {
+    let dataString = `data:text/json,${JSON.stringify(json)}`;
+    let elem = document.createElement('a');
+    elem.setAttribute('href', dataString);
+    elem.setAttribute('download', fileName);
+    elem.click();
+    elem.remove();
 };
 
 let save = recordings => {
@@ -64,7 +81,8 @@ let createItemEl = (name, index) => {
         refresh();
     });
     extractEl.addEventListener('click', () => {
-        copy(recordings[index]);
+        let recording = recordings[index];
+        download(`${recording.name}.json`, recording.recording);
     });
     return itemEl;
 };
@@ -72,6 +90,8 @@ let createItemEl = (name, index) => {
 document.addEventListener('DOMContentLoaded', function() {
     nameEl = getEl('name');
     saveEl = getEl('save');
+    fileEl = getEl('file');
+    uploadEl = getEl('upload');
     listEl = getEl('list');
     clearEl = getEl('clear');
 
@@ -85,6 +105,21 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             save(recordings);
             refresh();
+        });
+    });
+
+    uploadEl.addEventListener('click', () => {
+        fileEl.files.forEach(file => {
+            let fileReader = new FileReader();
+            fileReader.onload = () => {
+                recordings.push({
+                    name: file.name.replace(/\.[\w]+$/, ''),
+                    recording: JSON.parse(fileReader.result)
+                });
+                save(recordings);
+                refresh();
+            };
+            fileReader.readAsText(file);
         });
     });
 
