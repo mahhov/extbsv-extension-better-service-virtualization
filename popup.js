@@ -4,6 +4,14 @@ Object.prototype.forEach = function(func) {
     }
 };
 
+Object.prototype.map = function(func) {
+    let map = [];
+    for (var i = 0; i < this.length; i++) {
+		map[i] = func.call(this, this[i]);
+    }
+    return map;
+};
+
 let nameEl;
 let saveEl;
 let fileEl;
@@ -30,6 +38,16 @@ let getBsvExport = () => {
                 resolve(bsvExport);
             });
         });
+    });
+};
+
+let readFile = file => {
+    return new Promise(resolve => {
+        let fileReader = new FileReader();
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+        fileReader.readAsText(file);
     });
 };
 
@@ -109,17 +127,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     uploadEl.addEventListener('click', () => {
-        fileEl.files.forEach(file => {
-            let fileReader = new FileReader();
-            fileReader.onload = () => {
+        let fileReads = fileEl.files.map(file =>
+            return readFile(file).then(fileContent =>
                 recordings.push({
                     name: file.name.replace(/\.[\w]+$/, ''),
-                    recording: JSON.parse(fileReader.result)
+                    recording: JSON.parse(fileContent)
                 });
-                save(recordings);
-                refresh();
-            };
-            fileReader.readAsText(file);
+            );
+        );
+
+        Promise.all(fileReads).then(() => {
+            save(recordings);
+            refresh();
         });
     });
 
