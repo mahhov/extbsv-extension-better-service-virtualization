@@ -1,10 +1,15 @@
-<script type='text/javascript' src='popup.js'></script>
+<script src='popup.js'></script>
 
 <div>
-    <div>
+    <div id='recordSection'>
         <input id='name'></input>
         <button id='save'>save</button>
     </div>
+    <div id='replaySection'>
+        <div>currently replaying <span id='replayName'></span></div>
+        <button id='beginRecord'>begin record</button>
+    </div>
+    <hr />
     <div>
         <input id='file' type='file' multiple>
         <button id='upload'>&#8679;</button>

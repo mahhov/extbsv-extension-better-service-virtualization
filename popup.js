@@ -14,6 +14,7 @@ Object.prototype.map = function(func) {
 
 let nameEl;
 let saveEl;
+let beginRecordEl;
 let fileEl;
 let uploadEl;
 let listEl;
@@ -68,7 +69,26 @@ let load = callback => {
     chrome.storage.local.get('recordings', callback);
 };
 
+let setActive = recording => {
+    chrome.storage.local.set({'activeRecording': recording});
+};
+
+let getActive = callback => {
+    chrome.storage.local.get('activeRecording', callback);
+};
+
 let refresh = () => {
+    getActive(result => {
+        if (result.activeRecording) {
+            getEl('recordSection').hidden = true;
+            getEl('replaySection').hidden = false;
+            getEl('replayName').innerHTML = result.activeRecording.name;
+        } else {
+            getEl('replaySection').hidden = true;
+            getEl('recordSection').hidden = false;
+        }
+    });
+
     while (listEl.firstChild) {
         listEl.removeChild(listEl.firstChild);
     }
@@ -93,6 +113,10 @@ let createItemEl = (name, index) => {
     itemEl.appendChild(nameEl);
     itemEl.appendChild(removeEl);
     itemEl.appendChild(extractEl);
+    nameEl.addEventListener('click', () => {
+        setActive(recordings[index]);
+        refresh();
+    });
     removeEl.addEventListener('click', () => {
         recordings.splice(index, 1);
         save(recordings);
@@ -108,12 +132,11 @@ let createItemEl = (name, index) => {
 document.addEventListener('DOMContentLoaded', function() {
     nameEl = getEl('name');
     saveEl = getEl('save');
+    beginRecordEl = getEl('beginRecord');
     fileEl = getEl('file');
     uploadEl = getEl('upload');
     listEl = getEl('list');
     clearEl = getEl('clear');
-
-    refresh();
 
     saveEl.addEventListener('click', () => {
         getCurrentRecording().then(recording => {
@@ -124,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function() {
             save(recordings);
             refresh();
         });
+    });
+
+    beginRecordEl.addEventListener('click', () => {
+        setActive(null);
+        refresh();
     });
 
     uploadEl.addEventListener('click', () => {
@@ -146,4 +174,11 @@ document.addEventListener('DOMContentLoaded', function() {
         save(recordings);
         refresh();
     });
+
+    refresh();
 });
+
+// todo convert callbacks to promises
+// extract all items
+// rename save and load functions to set and get recordings
+// move el let declarations down where used

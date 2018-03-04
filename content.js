@@ -1,3 +1,12 @@
+console.log('begin content js')
+
+let addScript = scriptFile => {
+    let body = document.getElementsByTagName('body')[0];
+    let script = document.createElement('script');
+    script.setAttribute('src', chrome.extension.getURL(scriptFile));
+    body.appendChild(script);
+};
+
 let getRecordingCallback;
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -9,17 +18,26 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 window.addEventListener("message", event => {
-    event.source === window && event.data && event.data.bsvExport && getRecordingCallback(event.data.bsvExport);
+    if (event.source === window && event.data)
+        if (event.data === 'listenerReady')
+            chrome.storage.local.get('activeRecording', result => {
+                let injectMockData = result.activeRecording && result.activeRecording.recording;
+                if (injectMockData)
+                    window.postMessage({injectMockData}, '*');
+                else
+                    addScript("bsvInject.js");
+            });
+        else if (event.data === 'injectedMockData')
+            addScript("bsvInject.js");
+        else if (event.data === 'bsvReady')
+            addScript("bsvConfigInject.js");
+        else if (event.data.bsvExport)
+            getRecordingCallback(event.data.bsvExport);
 });
 
-let addScript = scriptFile => {
-    var body = document.getElementsByTagName('body')[0];
-    var script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', chrome.extension.getURL(scriptFile));
-    body.appendChild(script);
-}
-
 addScript("listenInject.js");
-addScript("bsvInject.js");
-addScript("bsvConfigInject.js");
+
+// todo use promise instead of callback
+// todo if inserted scripts in order, should execut in order, and avoid listeners
+
+console.log('content loaded')
