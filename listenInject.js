@@ -8,5 +8,3 @@ window.addEventListener("message", event => {
 });
 
 window.postMessage('listenerReady', '*');
-
-console.log('listen inject  loaded')

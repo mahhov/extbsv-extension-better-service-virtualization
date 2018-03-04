@@ -1,6 +1,5 @@
 {
     "manifest_version": 2,
-
     "name": "ebsv-extension-better-service-virtualization",
     "version": "0.1",
     "browser_action": {
@@ -10,12 +9,13 @@
     "content_scripts": [{
         "matches": ["<all_urls>"],
         "js": ["content.js"],
-        "run_at": "document_end"
+        "run_at": "document_start"
     }],
     "web_accessible_resources" : [
         "listenInject.js",
         "bsvInject.js",
-        "bsvConfigInject.js"
+        "bsvConfigInject.js",
+        "testInject.js"
     ],
     "permissions": [
         "activeTab",

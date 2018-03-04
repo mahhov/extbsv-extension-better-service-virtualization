@@ -1,10 +1,7 @@
-console.log('begin content js')
-
 let addScript = scriptFile => {
-    let body = document.getElementsByTagName('body')[0];
     let script = document.createElement('script');
     script.setAttribute('src', chrome.extension.getURL(scriptFile));
-    body.appendChild(script);
+    document.documentElement.appendChild(script);
 };
 
 let getRecordingCallback;
@@ -39,5 +36,3 @@ addScript("listenInject.js");
 
 // todo use promise instead of callback
 // todo if inserted scripts in order, should execut in order, and avoid listeners
-
-console.log('content loaded')

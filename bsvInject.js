@@ -158,5 +158,3 @@ let warning = (message, name, details) => {
 window.bsv = bsv;
 
 window.postMessage('bsvReady', '*');
-
-console.log('bsv inject loaded')
