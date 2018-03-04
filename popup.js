@@ -19,7 +19,7 @@ let uploadEl;
 let listEl;
 let clearEl;
 
-let recordings = [];
+let recordings;
 
 let getEl = id => document.getElementById(id);
 
@@ -73,7 +73,7 @@ let refresh = () => {
         listEl.removeChild(listEl.firstChild);
     }
     load(result => {
-        recordings = result.recordings;
+        recordings = result.recordings || [];
         recordings.forEach((recording, index) => {
             itemEl = createItemEl(recording.name, index);
             listEl.appendChild(itemEl);
@@ -128,13 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     uploadEl.addEventListener('click', () => {
         let fileReads = fileEl.files.map(file =>
-            return readFile(file).then(fileContent => {
+            readFile(file).then(fileContent => {
                 recordings.push({
                     name: file.name.replace(/\.[\w]+$/, ''),
                     recording: JSON.parse(fileContent)
                 });
-            });
-        );
+            }));
 
         Promise.all(fileReads).then(() => {
             save(recordings);
