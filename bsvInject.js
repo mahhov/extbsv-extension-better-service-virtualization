@@ -143,3 +143,5 @@ let warning = (message, name, details) => {
 };
 
 window.bsv = bsv;
+
+// todo bring from npm
