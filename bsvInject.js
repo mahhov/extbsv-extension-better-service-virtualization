@@ -90,7 +90,6 @@ let replayPromise = (name, object, method) => {
         replayHistory[name] = 0;
 
     object[method] = () => {
-        console.log('this is inside recorded', name);
         if (!recordings || !recordings[name]) {
             warning404(name);
             return Promise.reject();

@@ -182,3 +182,4 @@ document.addEventListener('DOMContentLoaded', function() {
 // extract all items
 // rename save and load functions to set and get recordings
 // move el let declarations down where used
+// merge upload and file select buttons

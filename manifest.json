@@ -14,8 +14,7 @@
     "web_accessible_resources" : [
         "listenInject.js",
         "bsvInject.js",
-        "bsvConfigInject.js",
-        "testInject.js"
+        "bsvConfigInject.js"
     ],
     "permissions": [
         "activeTab",
