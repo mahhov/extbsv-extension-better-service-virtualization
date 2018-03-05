@@ -14,11 +14,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 });
 
+let getActive = () =>
+    new Promise(resolve => {
+        chrome.storage.local.get('activeRecording', result => {
+            resolve(result.activeRecording);
+        });
+    });
+
 window.addEventListener("message", event => {
     if (event.source === window && event.data)
         if (event.data === 'listenerReady')
-            chrome.storage.local.get('activeRecording', result => {
-                let injectMockData = result.activeRecording && result.activeRecording.recording;
+            getActive().then(activeRecording => {
+                let injectMockData = activeRecording && activeRecording.recording;
                 if (injectMockData)
                     window.postMessage({injectMockData}, '*');
                 else
@@ -31,5 +38,3 @@ window.addEventListener("message", event => {
 addScript("bsvInject.js");
 addScript("listenInject.js");
 addScript("bsvConfigInject.js");
-
-// todo convert chrome.storage.local.get callback to promise

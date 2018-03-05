@@ -18,33 +18,30 @@ let listEl;
 
 let recordings;
 
-let getCurrentRecording = () => {
-    return getBsvExport().then(bsvExport => ({
+let getCurrentRecording = () =>
+    getBsvExport().then(bsvExport => ({
         replayDelay: 50,
         customReplayDelays: {},
         responseData: bsvExport
     }));
-};
 
-let getBsvExport = () => {
-    return new Promise(resolve => {
+let getBsvExport = () =>
+    new Promise(resolve => {
         chrome.tabs.query({active: true, currentWindow: true}, tabs => {
             chrome.tabs.sendMessage(tabs[0].id, 'getBsvExport', bsvExport => {
                 resolve(bsvExport);
             });
         });
     });
-};
 
-let readFile = file => {
-    return new Promise(resolve => {
+let readFile = file =>
+    new Promise(resolve => {
         let fileReader = new FileReader();
         fileReader.onload = () => {
             resolve(fileReader.result);
         };
         fileReader.readAsText(file);
     });
-};
 
 let download = (fileName, json) => {
     let dataString = `data:text/json,${JSON.stringify(json)}`;
@@ -59,25 +56,23 @@ let setRecording = recordings => {
     chrome.storage.local.set({'recordings': recordings});
 };
 
-let getRecording = () => {
-    return new Promise(resolve => {
-        chrome.storage.local.get('recordings', (result) => {
+let getRecording = () =>
+    new Promise(resolve => {
+        chrome.storage.local.get('recordings', result => {
             resolve(result);
         });
     });
-};
 
 let setActive = recording => {
     chrome.storage.local.set({'activeRecording': recording});
 };
 
-let getActive = () => {
-    return new Promise(resolve => {
-        chrome.storage.local.get('activeRecording', (result) => {
+let getActive = () =>
+    new Promise(resolve => {
+        chrome.storage.local.get('activeRecording', result => {
             resolve(result);
         });
     });
-};
 
 let refresh = () => {
     getActive().then(result => {
