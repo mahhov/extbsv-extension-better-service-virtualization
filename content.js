@@ -21,13 +21,15 @@ window.addEventListener("message", event => {
                 let injectMockData = result.activeRecording && result.activeRecording.recording;
                 if (injectMockData)
                     window.postMessage({injectMockData}, '*');
-                else
+                else {
                     addScript("bsvInject.js");
+                    addScript("bsvConfigInject.js");
+                }
             });
-        else if (event.data === 'injectedMockData')
+        else if (event.data === 'injectedMockData') {
             addScript("bsvInject.js");
-        else if (event.data === 'bsvReady')
             addScript("bsvConfigInject.js");
+        }
         else if (event.data.bsvExport)
             getRecordingCallback(event.data.bsvExport);
 });

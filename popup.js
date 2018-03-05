@@ -183,3 +183,4 @@ document.addEventListener('DOMContentLoaded', function() {
 // rename save and load functions to set and get recordings
 // move el let declarations down where used
 // merge upload and file select buttons
+// reload page on toggle record/replay mode and popup close 
