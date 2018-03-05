@@ -1,24 +1,18 @@
-Object.prototype.forEach = function(func) {
+Object.prototype.forEach = function (func) {
     for (var i = 0; i < this.length; i++) {
-		func.call(this, this[i]);
+        func.call(this, this[i]);
     }
 };
 
-Object.prototype.map = function(func) {
+Object.prototype.map = function (func) {
     let map = [];
     for (var i = 0; i < this.length; i++) {
-		map[i] = func.call(this, this[i]);
+        map[i] = func.call(this, this[i]);
     }
     return map;
 };
 
-let nameEl;
-let saveEl;
-let beginRecordEl;
-let fileEl;
-let uploadEl;
 let listEl;
-let clearEl;
 
 let recordings;
 
@@ -129,19 +123,19 @@ let createItemEl = (name, index) => {
     return itemEl;
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    nameEl = getEl('name');
-    saveEl = getEl('save');
-    beginRecordEl = getEl('beginRecord');
-    fileEl = getEl('file');
-    uploadEl = getEl('upload');
+document.addEventListener('DOMContentLoaded', function () {
+    let recordingName = getEl('name');
+    let saveEl = getEl('save');
+    let beginRecordEl = getEl('beginRecord');
+    let fileEl = getEl('file');
+    let uploadEl = getEl('upload');
     listEl = getEl('list');
-    clearEl = getEl('clear');
+    let clearEl = getEl('clear');
 
     saveEl.addEventListener('click', () => {
         getCurrentRecording().then(recording => {
             recordings.push({
-                name: nameEl.value,
+                name: recordingName.value,
                 recording
             });
             setRecording(recordings);
@@ -180,6 +174,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // todo convert callbacks to promises
 // extract all items
-// move el let declarations down where used
 // merge upload and file select buttons
 // reload page on toggle record/replay mode and popup close 
