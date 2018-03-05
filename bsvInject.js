@@ -56,58 +56,54 @@ bsv.registerPromise = (name, object, method) => {
 
     object[method] = function () {
         return modePromise.then(mode => {
-            if (mode === modes.RECORD) {
-                if (!recordings[name])
-                    recordings[name] = [];
-
-                let response = oldMethod.call(this, ...arguments);
-                let recordArguments = _.map(arguments, argument => argument);
-                response.then(resolution => {
-                    recordings[name].push({'arguments': recordArguments, 'resolution': resolution, 'resolved': true});
-                }).catch(rejection => {
-                    recordings[name].push({'arguments': recordArguments, 'rejection': rejection});
-                });
-                return response;
-
-            } else if (mode === modes.REPLAY) {
-                if (!recordings || !recordings[name] || !recordings[name].length) {
-                    warning404(name);
-                    return new Promise();
-                }
-
-                if (!replayHistory[name])
-                    replayHistory[name] = 0;
-
-                let index = replayHistory[name];
-                replayHistory[name] < recordings[name].length - 1 && replayHistory[name]++;
-                let recording = recordings[name][index];
-                let delay = customReplayDelays[name] || replayDelay;
-                console.log('invoking', name, 'with', delay, 'delay');
-
-                if (!delay)
-                    return recording.resolved ? recording.resolution : Promise.reject(recording.rejection);
-                else
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            recording.resolved ? resolve(recording.resolution) : reject(recording.rejection);
-                        }, delay);
-                    });
-
-            } else
+            if (mode === modes.RECORD)
+                return recordPromise(name, oldMethod, this, ...arguments);
+            else if (mode === modes.REPLAY)
+                return replayPromise(name, oldMethod);
+            else
                 return oldMethod.call(this, ...arguments);
         });
     };
 };
 
-let recordPromise = (name, object, field, oldMethod, that, arguments) => {
+let recordPromise = (name, oldMethod, that, argumentList) => {
+    if (!recordings[name])
+        recordings[name] = [];
 
+    let response = oldMethod.call(that, argumentList);
+    let recordArguments = _.map(argumentList, argument => argument);
+    response.then(resolution => {
+        recordings[name].push({'arguments': recordArguments, 'resolution': resolution, 'resolved': true});
+    }).catch(rejection => {
+        recordings[name].push({'arguments': recordArguments, 'rejection': rejection});
+    });
+    return response;
 };
 
-let replayPromise = (name, object, method, oldMethod, that, arguments) => {
-    
-};
+let replayPromise = (name, oldMethod) => {
+    if (!recordings || !recordings[name] || !recordings[name].length) {
+        warning404(name);
+        return new Promise();
+    }
 
-// todo extract record and replay promise to external functions
+    if (!replayHistory[name])
+        replayHistory[name] = 0;
+
+    let index = replayHistory[name];
+    replayHistory[name] < recordings[name].length - 1 && replayHistory[name]++;
+    let recording = recordings[name][index];
+    let delay = customReplayDelays[name] || replayDelay;
+    console.log('invoking', name, 'with', delay, 'delay');
+
+    if (!delay)
+        return recording.resolved ? recording.resolution : Promise.reject(recording.rejection);
+    else
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                recording.resolved ? resolve(recording.resolution) : reject(recording.rejection);
+            }, delay);
+        });
+};
 
 bsv.registerField = (name, object, field) => {
     modePromise.then(mode => {
