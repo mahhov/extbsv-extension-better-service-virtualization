@@ -32,5 +32,4 @@ addScript("bsvInject.js");
 addScript("listenInject.js");
 addScript("bsvConfigInject.js");
 
-// todo if inserted scripts in order, should execut in order, and avoid listeners
-// convert chrome.storage.local.get callback to promise
+// todo convert chrome.storage.local.get callback to promise
