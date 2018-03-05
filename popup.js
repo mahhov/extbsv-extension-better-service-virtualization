@@ -1,12 +1,12 @@
 Object.prototype.forEach = function (func) {
-    for (var i = 0; i < this.length; i++) {
+    for (let i = 0; i < this.length; i++) {
         func.call(this, this[i]);
     }
 };
 
 Object.prototype.map = function (func) {
     let map = [];
-    for (var i = 0; i < this.length; i++) {
+    for (let i = 0; i < this.length; i++) {
         map[i] = func.call(this, this[i]);
     }
     return map;
