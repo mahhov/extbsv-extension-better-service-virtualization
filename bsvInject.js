@@ -59,7 +59,7 @@ bsv.registerPromise = (name, object, method) => {
             if (mode === modes.RECORD)
                 return recordPromise(name, oldMethod, this, ...arguments);
             else if (mode === modes.REPLAY)
-                return replayPromise(name, oldMethod);
+                return replayPromise(name);
             else
                 return oldMethod.call(this, ...arguments);
         });
@@ -80,7 +80,7 @@ let recordPromise = (name, oldMethod, that, argumentList) => {
     return response;
 };
 
-let replayPromise = (name, oldMethod) => {
+let replayPromise = name => {
     if (!recordings || !recordings[name] || !recordings[name].length) {
         warning404(name);
         return new Promise();
