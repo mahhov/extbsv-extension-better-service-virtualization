@@ -61,11 +61,11 @@ let download = (fileName, json) => {
     elem.remove();
 };
 
-let save = recordings => {
+let setRecording = recordings => {
     chrome.storage.local.set({'recordings': recordings});
 };
 
-let load = callback => {
+let getRecording = callback => {
     chrome.storage.local.get('recordings', callback);
 };
 
@@ -92,7 +92,7 @@ let refresh = () => {
     while (listEl.firstChild) {
         listEl.removeChild(listEl.firstChild);
     }
-    load(result => {
+    getRecording(result => {
         recordings = result.recordings || [];
         recordings.forEach((recording, index) => {
             itemEl = createItemEl(recording.name, index);
@@ -119,7 +119,7 @@ let createItemEl = (name, index) => {
     });
     removeEl.addEventListener('click', () => {
         recordings.splice(index, 1);
-        save(recordings);
+        setRecording(recordings);
         refresh();
     });
     extractEl.addEventListener('click', () => {
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: nameEl.value,
                 recording
             });
-            save(recordings);
+            setRecording(recordings);
             refresh();
         });
     });
@@ -164,14 +164,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }));
 
         Promise.all(fileReads).then(() => {
-            save(recordings);
+            setRecording(recordings);
             refresh();
         });
     });
 
     clearEl.addEventListener('click', () => {
         recordings = [];
-        save(recordings);
+        setRecording(recordings);
         refresh();
     });
 
@@ -180,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // todo convert callbacks to promises
 // extract all items
-// rename save and load functions to set and get recordings
 // move el let declarations down where used
 // merge upload and file select buttons
 // reload page on toggle record/replay mode and popup close 
