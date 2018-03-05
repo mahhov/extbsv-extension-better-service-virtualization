@@ -12,11 +12,11 @@ Object.prototype.map = function (func) {
     return map;
 };
 
+let getEl = id => document.getElementById(id);
+
 let listEl;
 
 let recordings;
-
-let getEl = id => document.getElementById(id);
 
 let getCurrentRecording = () => {
     return getBsvExport().then(bsvExport => ({
@@ -59,20 +59,28 @@ let setRecording = recordings => {
     chrome.storage.local.set({'recordings': recordings});
 };
 
-let getRecording = callback => {
-    chrome.storage.local.get('recordings', callback);
+let getRecording = () => {
+    return new Promise(resolve => {
+        chrome.storage.local.get('recordings', (result) => {
+            resolve(result);
+        });
+    });
 };
 
 let setActive = recording => {
     chrome.storage.local.set({'activeRecording': recording});
 };
 
-let getActive = callback => {
-    chrome.storage.local.get('activeRecording', callback);
+let getActive = () => {
+    return new Promise(resolve => {
+        chrome.storage.local.get('activeRecording', (result) => {
+            resolve(result);
+        });
+    });
 };
 
 let refresh = () => {
-    getActive(result => {
+    getActive().then(result => {
         if (result.activeRecording) {
             getEl('recordSection').hidden = true;
             getEl('replaySection').hidden = false;
@@ -86,7 +94,7 @@ let refresh = () => {
     while (listEl.firstChild) {
         listEl.removeChild(listEl.firstChild);
     }
-    getRecording(result => {
+    getRecording().then(result => {
         recordings = result.recordings || [];
         recordings.forEach((recording, index) => {
             itemEl = createItemEl(recording.name, index);
@@ -124,7 +132,7 @@ let createItemEl = (name, index) => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    let recordingName = getEl('name');
+    let recordingName = getEl('recordingName');
     let saveEl = getEl('save');
     let beginRecordEl = getEl('beginRecord');
     let fileEl = getEl('file');
@@ -172,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
     refresh();
 });
 
-// todo convert callbacks to promises
+// todo 
 // extract all items
 // merge upload and file select buttons
 // reload page on toggle record/replay mode and popup close 

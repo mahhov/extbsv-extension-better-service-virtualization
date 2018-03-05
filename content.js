@@ -36,5 +36,4 @@ window.addEventListener("message", event => {
 
 addScript("listenInject.js");
 
-// todo use promise instead of callback
 // todo if inserted scripts in order, should execut in order, and avoid listeners
