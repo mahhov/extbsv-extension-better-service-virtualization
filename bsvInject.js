@@ -142,6 +142,8 @@ let warning = (message, name, details) => {
     console.error(message, name, details ? details : '');
 };
 
-window.bsv = bsv;
+// window.bsv = bsv;
+
+export default bsv;
 
 // todo bring from npm

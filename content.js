@@ -1,6 +1,7 @@
 let addScript = scriptFile => {
     let script = document.createElement('script');
     script.setAttribute('src', chrome.extension.getURL(scriptFile));
+    script.type = 'module';
     document.documentElement.appendChild(script);
 };
 
@@ -36,5 +37,6 @@ window.addEventListener("message", event => {
 });
 
 addScript("bsvInject.js");
+// addScript("node_modules/bsv-better-service-virtualization/src/index.js");
 addScript("listenInject.js");
 addScript("bsvConfigInject.js");
