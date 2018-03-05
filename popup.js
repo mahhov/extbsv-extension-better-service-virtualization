@@ -131,7 +131,7 @@ let createItemEl = (name, index) => {
     return itemEl;
 };
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     let recordingName = getEl('recordingName');
     let saveEl = getEl('save');
     let beginRecordEl = getEl('beginRecord');

@@ -34,4 +34,4 @@ addScript("bsvConfigInject.js");
 
 // todo if inserted scripts in order, should execut in order, and avoid listeners
 // convert chrome.storage.local.get callback to promise
-// replace all sintacnes of function and var that are not required
+// replace all sintacnes of var that are not required
