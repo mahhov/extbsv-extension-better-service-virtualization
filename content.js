@@ -21,19 +21,17 @@ window.addEventListener("message", event => {
                 let injectMockData = result.activeRecording && result.activeRecording.recording;
                 if (injectMockData)
                     window.postMessage({injectMockData}, '*');
-                else {
-                    addScript("bsvInject.js");
-                    addScript("bsvConfigInject.js");
-                }
+                else
+                    window.postMessage('noMockData', '*');
             });
-        else if (event.data === 'injectedMockData') {
-            addScript("bsvInject.js");
-            addScript("bsvConfigInject.js");
-        }
         else if (event.data.bsvExport)
             getRecordingCallback(event.data.bsvExport);
 });
 
+addScript("bsvInject.js");
 addScript("listenInject.js");
+addScript("bsvConfigInject.js");
 
 // todo if inserted scripts in order, should execut in order, and avoid listeners
+// convert chrome.storage.local.get callback to promise
+// replace all sintacnes of function and var that are not required
