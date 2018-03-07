@@ -138,14 +138,9 @@ let documentContentLoaded = () =>
 
 documentContentLoaded.then(() => {
     let recordingName = getEl('recordingName');
-    let saveEl = getEl('save');
-    let beginRecordEl = getEl('beginRecord');
-    let fileEl = getEl('file');
-    let uploadEl = getEl('upload');
     listEl = getEl('list');
-    let clearEl = getEl('clear');
 
-    saveEl.addEventListener('click', () => {
+    getEl('save').addEventListener('click', () => {
         getCurrentRecording().then(recording => {
             recordings.push({
                 name: recordingName.value,
@@ -156,13 +151,13 @@ documentContentLoaded.then(() => {
         });
     });
 
-    beginRecordEl.addEventListener('click', () => {
+    getEl('beginRecord').addEventListener('click', () => {
         setActive(null);
         refresh();
     });
 
-    uploadEl.addEventListener('click', () => {
-        let fileReads = fileEl.files.map(file =>
+    getEl('upload').addEventListener('click', () => {
+        let fileReads = getEl('file').files.map(file =>
             readFile(file).then(fileContent => {
                 recordings.push({
                     name: file.name.replace(/\.[\w]+$/, ''),
@@ -176,7 +171,7 @@ documentContentLoaded.then(() => {
         });
     });
 
-    clearEl.addEventListener('click', () => {
+    getEl('clear').addEventListener('click', () => {
         recordings = [];
         setRecording(recordings);
         refresh();
