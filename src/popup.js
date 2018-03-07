@@ -136,7 +136,7 @@ let documentContentLoaded = () =>
         });
     });
 
-documentContentLoaded.then(() => {
+documentContentLoaded().then(() => {
     let recordingName = getEl('recordingName');
     listEl = getEl('list');
 
