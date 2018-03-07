@@ -1,4 +1,4 @@
-let bsv = require("../node_modules/bsv-better-service-virtualization/src/index.js");
+let bsv = require('../node_modules/bsv-better-service-virtualization/src/index.js');
 
 let forEach = (object, func) => {
     for (let i = 0; i < object.length; i++) {
@@ -6,7 +6,7 @@ let forEach = (object, func) => {
     }
 };
 
-window.addEventListener("message", event => {
+window.addEventListener('message', event => {
     if (event.source === window && event.data)
         if (event.data.injectMockData) {
             let mockData = event.data.injectMockData;
@@ -23,7 +23,7 @@ window.addEventListener("message", event => {
             bsv.setModeRecord();
 
         } else if (event.data === 'getBsvExport')
-            window.postMessage({'bsvExport': bsv.exportObject()}, "*");
+            window.postMessage({'bsvExport': bsv.exportObject()}, '*');
 });
 
 window.postMessage('listenerReady', '*');

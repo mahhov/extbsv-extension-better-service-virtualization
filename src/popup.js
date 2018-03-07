@@ -114,7 +114,7 @@ let createItemEl = (name, index) => {
     let itemEl = document.createElement('div');
     let nameEl = document.createElement('button');
     nameEl.innerHTML = name;
-    nameEl.style = "width:80px;";
+    nameEl.style = 'width:80px;';
     let removeEl = document.createElement('button');
     removeEl.innerHTML = 'X';
     let extractEl = document.createElement('button');
@@ -193,7 +193,6 @@ documentContentLoaded().then(() => {
 });
 
 // todo
-// " -> '
 // reorganize method order in popup.js
 // filter matching urls
 // renaming and reordering records

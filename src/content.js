@@ -22,7 +22,7 @@ let getActive = () =>
         });
     });
 
-window.addEventListener("message", event => {
+window.addEventListener('message', event => {
     if (event.source === window && event.data)
         if (event.data === 'listenerReady')
             getActive().then(activeRecording => {
@@ -36,4 +36,4 @@ window.addEventListener("message", event => {
             getRecordingCallback(event.data.bsvExport);
 });
 
-addScript("inject.js");
+addScript('inject.js');
