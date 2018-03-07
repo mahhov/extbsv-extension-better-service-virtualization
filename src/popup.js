@@ -188,7 +188,6 @@ documentContentLoaded().then(() => {
 });
 
 // todo
-// merge upload and file select buttons
 // reload page on toggle record/replay mode and popup close
 // build process to copy files and manifest to build dir
 // local store and editable config
