@@ -52,6 +52,10 @@ let download = (fileName, json) => {
     elem.remove();
 };
 
+let downloadRecording = recording => {
+    download(`${recording.name}.json`, recording.recording)
+};
+
 let getStorage = name =>
     new Promise(resolve => {
         chrome.storage.local.get(name, result => {
@@ -123,8 +127,7 @@ let createItemEl = (name, index) => {
         refresh();
     });
     extractEl.addEventListener('click', () => {
-        let recording = recordings[index];
-        download(`${recording.name}.json`, recording.recording);
+        downloadRecording(recordings[index]);
     });
     return itemEl;
 };
@@ -177,13 +180,18 @@ documentContentLoaded().then(() => {
         refresh();
     });
 
+    getEl('extractAll').addEventListener('click', () => {
+        recordings.forEach(downloadRecording);
+    });
+
     refresh();
 });
 
 // todo - popup
-// extract all items
 // merge upload and file select buttons
 // reload page on toggle record/replay mode and popup close
+// rename get/set Recording to plural
+// build process to copy files and manifest to build dir
 
 // todo - bsvConfigInjectjs
 // local store and editable config
