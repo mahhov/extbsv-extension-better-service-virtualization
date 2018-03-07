@@ -1,7 +1,8 @@
 {
   "name": "extbsv",
   "scripts": {
-    "build": "browserify src/listenInject.js src/bsvConfigInject.js -o browser/inject.js"
+    "build": "browserify src/listenInject.js src/bsvConfigInject.js -o browser/inject.js",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "bsv-better-service-virtualization": "0.0.8"
