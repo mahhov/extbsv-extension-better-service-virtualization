@@ -1,7 +1,7 @@
 {
   "name": "extbsv",
   "scripts": {
-    "build": "browserify src/listenInject.js src/bsvConfigInject.js -o browser/inject.js",
+    "build": "[ -d build ] && rm -r build; browserify src/listenInject.js src/bsvConfigInject.js -o build/inject.js && cp src/{popup.html,popup.js,content.js} resources/icon.png manifest.json build",
     "postinstall": "npm run build"
   },
   "dependencies": {

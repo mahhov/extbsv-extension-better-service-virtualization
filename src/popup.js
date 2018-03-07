@@ -193,7 +193,8 @@ documentContentLoaded().then(() => {
 });
 
 // todo
-// build process to copy files and manifest to build dir
 // local store and editable config
 // filter matching urls
 // reorganize method order in popup.js
+// dev mode to auto build
+// renaming and reordering records

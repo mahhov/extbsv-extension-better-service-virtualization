@@ -36,4 +36,4 @@ window.addEventListener("message", event => {
             getRecordingCallback(event.data.bsvExport);
 });
 
-addScript("browser/inject.js");
+addScript("inject.js");
