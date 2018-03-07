@@ -1,4 +1,4 @@
-import bsv from "./bsvInject.js";
+let bsv = require("../node_modules/bsv-better-service-virtualization/src/index.js");
 
 let forEach = (object, func) => {
     for (let i = 0; i < object.length; i++) {

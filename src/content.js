@@ -36,7 +36,4 @@ window.addEventListener("message", event => {
             getRecordingCallback(event.data.bsvExport);
 });
 
-addScript("bsvInject.js");
-// addScript("node_modules/bsv-better-service-virtualization/src/index.js");
-addScript("listenInject.js");
-addScript("bsvConfigInject.js");
+addScript("browser/inject.js");
