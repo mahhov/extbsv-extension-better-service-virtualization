@@ -67,10 +67,10 @@ let setStorage = (name, value) => {
     chrome.storage.local.set({[name]: value});
 };
 
-let getRecording = () =>
+let getRecordings = () =>
     getStorage('recordings');
 
-let setRecording = recordings => {
+let setRecordings = recordings => {
     setStorage('recordings', recordings);
 };
 
@@ -96,7 +96,7 @@ let refresh = () => {
     while (listEl.firstChild) {
         listEl.removeChild(listEl.firstChild);
     }
-    getRecording().then(result => {
+    getRecordings().then(result => {
         recordings = result.recordings || [];
         recordings.forEach((recording, index) => {
             itemEl = createItemEl(recording.name, index);
@@ -123,7 +123,7 @@ let createItemEl = (name, index) => {
     });
     removeEl.addEventListener('click', () => {
         recordings.splice(index, 1);
-        setRecording(recordings);
+        setRecordings(recordings);
         refresh();
     });
     extractEl.addEventListener('click', () => {
@@ -149,7 +149,7 @@ documentContentLoaded().then(() => {
                 name: recordingName.value,
                 recording
             });
-            setRecording(recordings);
+            setRecordings(recordings);
             refresh();
         });
     });
@@ -169,14 +169,14 @@ documentContentLoaded().then(() => {
             }));
 
         Promise.all(fileReads).then(() => {
-            setRecording(recordings);
+            setRecordings(recordings);
             refresh();
         });
     });
 
     getEl('clear').addEventListener('click', () => {
         recordings = [];
-        setRecording(recordings);
+        setRecordings(recordings);
         refresh();
     });
 
@@ -187,12 +187,9 @@ documentContentLoaded().then(() => {
     refresh();
 });
 
-// todo - popup
+// todo
 // merge upload and file select buttons
 // reload page on toggle record/replay mode and popup close
-// rename get/set Recording to plural
 // build process to copy files and manifest to build dir
-
-// todo - bsvConfigInjectjs
 // local store and editable config
 // filter matching urls
