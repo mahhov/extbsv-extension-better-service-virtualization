@@ -105,6 +105,11 @@ let refresh = () => {
     });
 };
 
+let refreshPage = () => {
+    chrome.tabs.executeScript({code: 'window.location.reload();'});
+    window.close();
+};
+
 let createItemEl = (name, index) => {
     let itemEl = document.createElement('div');
     let nameEl = document.createElement('button');
@@ -119,7 +124,7 @@ let createItemEl = (name, index) => {
     itemEl.appendChild(extractEl);
     nameEl.addEventListener('click', () => {
         setActive(recordings[index]);
-        refresh();
+        refreshPage();
     });
     removeEl.addEventListener('click', () => {
         recordings.splice(index, 1);
@@ -156,7 +161,7 @@ documentContentLoaded().then(() => {
 
     getEl('beginRecord').addEventListener('click', () => {
         setActive(null);
-        refresh();
+        refreshPage();
     });
 
     getEl('upload').addEventListener('click', () => {
@@ -188,7 +193,7 @@ documentContentLoaded().then(() => {
 });
 
 // todo
-// reload page on toggle record/replay mode and popup close
 // build process to copy files and manifest to build dir
 // local store and editable config
 // filter matching urls
+// reorganize method order in popup.js
