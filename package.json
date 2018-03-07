@@ -2,12 +2,14 @@
   "name": "extbsv",
   "scripts": {
     "build": "[ -d build ] && rm -r build; browserify src/listenInject.js src/bsvConfigInject.js -o build/inject.js && cp src/{popup.html,popup.js,content.js} resources/icon.png manifest.json build",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "dev": "nodemon --watch src -e html,js --exec npm run build"
   },
   "dependencies": {
     "bsv-better-service-virtualization": "0.0.8"
   },
   "devDependencies": {
-    "browserify": "^16.1.0"
+    "browserify": "^16.1.0",
+    "nodemon": "^1.17.1"
   }
 }

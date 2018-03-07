@@ -193,7 +193,7 @@ documentContentLoaded().then(() => {
 });
 
 // todo
-// dev mode to auto build
+// " -> '
 // reorganize method order in popup.js
 // filter matching urls
 // renaming and reordering records
