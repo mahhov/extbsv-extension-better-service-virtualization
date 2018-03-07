@@ -175,7 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
     refresh();
 });
 
-// todo 
+// todo - popup
 // extract all items
 // merge upload and file select buttons
-// reload page on toggle record/replay mode and popup close 
+// reload page on toggle record/replay mode and popup close
+
+// todo - bsvConfigInjectjs
+// local store and editable config
+// filter matching urls
