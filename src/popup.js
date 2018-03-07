@@ -52,27 +52,30 @@ let download = (fileName, json) => {
     elem.remove();
 };
 
-let setRecording = recordings => {
-    chrome.storage.local.set({'recordings': recordings});
+let getStorage = name =>
+    new Promise(resolve => {
+        chrome.storage.local.get(name, result => {
+            resolve(result);
+        });
+    });
+
+let setStorage = (name, data) => {
+    chrome.storage.local.set({name: data});
 };
 
 let getRecording = () =>
-    new Promise(resolve => {
-        chrome.storage.local.get('recordings', result => {
-            resolve(result);
-        });
-    });
+    getStorage('recordings');
 
-let setActive = recording => {
-    chrome.storage.local.set({'activeRecording': recording});
+let setRecording = recordings => {
+    setStorage('recordings', recordings);
 };
 
 let getActive = () =>
-    new Promise(resolve => {
-        chrome.storage.local.get('activeRecording', result => {
-            resolve(result);
-        });
-    });
+    getStorage('activeRecording');
+
+let setActive = recording => {
+    setStorage('activeRecording', recording);
+};
 
 let refresh = () => {
     getActive().then(result => {
@@ -126,7 +129,14 @@ let createItemEl = (name, index) => {
     return itemEl;
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+let documentContentLoaded = () =>
+    new Promise(resolve => {
+        document.addEventListener('DOMContentLoaded', () => {
+            resolve();
+        });
+    });
+
+documentContentLoaded.then(() => {
     let recordingName = getEl('recordingName');
     let saveEl = getEl('save');
     let beginRecordEl = getEl('beginRecord');
