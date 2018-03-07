@@ -193,8 +193,8 @@ documentContentLoaded().then(() => {
 });
 
 // todo
-// local store and editable config
-// filter matching urls
-// reorganize method order in popup.js
 // dev mode to auto build
+// reorganize method order in popup.js
+// filter matching urls
 // renaming and reordering records
+// local store and editable config
