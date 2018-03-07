@@ -1,28 +1,28 @@
 {
-    "manifest_version": 2,
-    "name": "ebsv-extension-better-service-virtualization",
-    "version": "0.1",
-    "browser_action": {
-        "default_icon": "icon.png",
-        "default_popup": "src/popup.html"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "src/content.js"
-            ],
-            "run_at": "document_start"
-        }
-    ],
-    "web_accessible_resources": [
-        "browser/inject.js"
-    ],
-    "permissions": [
-        "activeTab",
-        "storage",
-        "tabs"
-    ]
+  "manifest_version": 2,
+  "name": "ebsv-extension-better-service-virtualization",
+  "version": "0.1",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "src/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    "browser/inject.js"
+  ],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs"
+  ]
 }
