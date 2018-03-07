@@ -60,7 +60,7 @@ let getStorage = name =>
     });
 
 let setStorage = (name, data) => {
-    chrome.storage.local.set({name: data});
+    chrome.storage.local.set({[name]: data});
 };
 
 let getRecording = () =>
