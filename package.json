@@ -4,7 +4,7 @@
     "build": "[ -d build ] && rm -r build; browserify src/listenInject.js src/bsvConfigInject.js -o build/inject.js && cp src/{popup.html,popup.js,content.js} resources/icon.png manifest.json build",
     "postinstall": "npm run build",
     "dev": "nodemon --watch src -e html,js --exec npm run build",
-    "out": "zip out/build.zip build/*"
+    "out": "npm run build && zip out/build.zip build/*"
   },
   "dependencies": {
     "bsv-better-service-virtualization": "0.0.9"
