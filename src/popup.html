@@ -2,24 +2,34 @@
 
 <div>
     <div id='recordSection'>
+        <div><b>recording</b></div>
         <input id='recordingName'/>
         <button id='save'>save</button>
     </div>
     <div id='replaySection'>
-        <div>currently replaying <span id='replayName'></span></div>
+        <div><b>currently replaying <span id='replayName'></span></b></div>
         <button id='beginRecord'>begin record</button>
     </div>
     <hr/>
     <div>
+        <div><b>upload recording</b></div>
         <input id='file' type='file' multiple/>
         <button id='upload'>&#8679;</button>
     </div>
     <hr/>
     <div>
+        <div><b>recordings</b></div>
         <div id='list'></div>
         <div>
             <button id='clear'>clear</button>
             <button id='extractAll'>&#8681; all</button>
         </div>
+    </div>
+    <hr/>
+    <div>
+        <div><b>manage config</b></div>
+        <button id='configDownload'>&#8681;</button>
+        <input id='configFile' type='file' multiple/>
+        <button id='configUpload'>&#8679;</button>
     </div>
 </div>
