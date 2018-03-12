@@ -15,23 +15,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 });
 
-let getActive = () =>
+let getStorage = name =>
     new Promise(resolve => {
-        chrome.storage.local.get('activeRecording', result => {
-            resolve(result.activeRecording);
+        chrome.storage.local.get(name, storage => {
+            resolve(storage[name]);
         });
     });
 
 window.addEventListener('message', event => {
     if (event.source === window && event.data)
         if (event.data === 'listenerReady')
-            getActive().then(activeRecording => {
-                let injectMockData = activeRecording && activeRecording.recording;
-                if (injectMockData)
-                    window.postMessage({injectMockData}, '*');
-                else
-                    window.postMessage('noMockData', '*');
+            Promise.all([getStorage('config'), getStorage('activeRecording')]).then(([config, activeRecording]) => {
+                let mockData = activeRecording && activeRecording.recording;
+                window.postMessage({setBsv: true, config, mockData}, '*');
             });
+
         else if (event.data.bsvExport)
             getRecordingCallback(event.data.bsvExport);
 });

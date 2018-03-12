@@ -81,6 +81,10 @@ let setActive = recording => {
     setStorage('activeRecording', recording);
 };
 
+let setConfig = config => {
+    setStorage('config', config);
+};
+
 let refresh = () => {
     getActive().then(result => {
         if (result.activeRecording) {
@@ -187,6 +191,14 @@ documentContentLoaded().then(() => {
 
     getEl('extractAll').addEventListener('click', () => {
         recordings.forEach(downloadRecording);
+    });
+
+    getEl('configUpload').addEventListener('click', () => {
+        let file = getEl('configFile').files[0];
+        file && readFile(file).then(fileContent => {
+            setConfig(fileContent);
+            refreshPage();
+        });
     });
 
     refresh();
