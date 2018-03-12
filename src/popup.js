@@ -128,7 +128,7 @@ let createItemEl = (name, index) => {
     let itemEl = document.createElement('div');
     let nameEl = document.createElement('button');
     nameEl.innerHTML = name;
-    nameEl.style = 'width:80px;';
+    nameEl.style = 'width:160px;';
     let removeEl = document.createElement('button');
     removeEl.innerHTML = 'X';
     let extractEl = document.createElement('button');
