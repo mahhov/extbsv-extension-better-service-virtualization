@@ -43,8 +43,8 @@ let readFile = file =>
         fileReader.readAsText(file);
     });
 
-let download = (fileName, json) => {
-    let dataString = `data:text/json,${JSON.stringify(json)}`;
+let download = (fileName, content) => {
+    let dataString = `data:text/json,${content}`;
     let elem = document.createElement('a');
     elem.setAttribute('href', dataString);
     elem.setAttribute('download', fileName);
@@ -53,13 +53,20 @@ let download = (fileName, json) => {
 };
 
 let downloadRecording = recording => {
-    download(`${recording.name}.json`, recording.recording)
+    let content = JSON.stringify(recording.recording, null, 2);
+    download(`${recording.name}.json`, content)
+};
+
+let downloadConfig = () => {
+    getConfig().then(config => {
+        download('bsvConfig.js', config);
+    });
 };
 
 let getStorage = name =>
     new Promise(resolve => {
-        chrome.storage.local.get(name, result => {
-            resolve(result);
+        chrome.storage.local.get(name, storage => {
+            resolve(storage[name]);
         });
     });
 
@@ -81,16 +88,19 @@ let setActive = recording => {
     setStorage('activeRecording', recording);
 };
 
+let getConfig = () =>
+    getStorage('config');
+
 let setConfig = config => {
     setStorage('config', config);
 };
 
 let refresh = () => {
-    getActive().then(result => {
-        if (result.activeRecording) {
+    getActive().then(activeRecording => {
+        if (activeRecording) {
             getEl('recordSection').hidden = true;
             getEl('replaySection').hidden = false;
-            getEl('replayName').innerHTML = result.activeRecording.name;
+            getEl('replayName').innerHTML = activeRecording.name;
         } else {
             getEl('replaySection').hidden = true;
             getEl('recordSection').hidden = false;
@@ -100,8 +110,8 @@ let refresh = () => {
     while (listEl.firstChild) {
         listEl.removeChild(listEl.firstChild);
     }
-    getRecordings().then(result => {
-        recordings = result.recordings || [];
+    getRecordings().then(getRecordings => {
+        recordings = getRecordings || [];
         recordings.forEach((recording, index) => {
             itemEl = createItemEl(recording.name, index);
             listEl.appendChild(itemEl);
@@ -199,6 +209,10 @@ documentContentLoaded().then(() => {
             setConfig(fileContent);
             refreshPage();
         });
+    });
+
+    getEl('configDownload').addEventListener('click', () => {
+        downloadConfig();
     });
 
     refresh();
