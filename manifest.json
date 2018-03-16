@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "ebsv-extension-better-service-virtualization",
   "short_name": "ebsv",
-  "version": "0.6",
+  "version": "0.7",
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
@@ -24,6 +24,7 @@
   "permissions": [
     "activeTab",
     "storage",
-    "tabs"
+    "tabs",
+    "downloads"
   ]
 }

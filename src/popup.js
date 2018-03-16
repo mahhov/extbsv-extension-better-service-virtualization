@@ -44,12 +44,9 @@ let readFile = file =>
     });
 
 let download = (fileName, content) => {
-    let dataString = `data:text/json,${content}`;
-    let elem = document.createElement('a');
-    elem.setAttribute('href', dataString);
-    elem.setAttribute('download', fileName);
-    elem.click();
-    elem.remove();
+    let blob = new Blob([content], {type: 'application/json'});
+    let url = URL.createObjectURL(blob);
+    chrome.downloads.download({url, filename: fileName});
 };
 
 let downloadRecording = recording => {
@@ -223,3 +220,5 @@ documentContentLoaded().then(() => {
 // filter matching urls
 // renaming and reordering records
 // local store and editable config
+// see if we're using chrome.tabs correctly
+// support switching between multiple configs
