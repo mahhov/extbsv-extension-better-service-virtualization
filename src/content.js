@@ -25,9 +25,11 @@ let getStorage = name =>
 window.addEventListener('message', event => {
     if (event.source === window && event.data)
         if (event.data === 'listenerReady')
-            Promise.all([getStorage('config'), getStorage('activeRecording')]).then(([config, activeRecording]) => {
-                let mockData = activeRecording && activeRecording.recording;
-                window.postMessage({setBsv: true, config, mockData}, '*');
+            Promise.all([getStorage('disabled'), getStorage('config'), getStorage('activeRecording')]).then(([disabled, config, activeRecording]) => {
+                if (!disabled) {
+                    let mockData = activeRecording && activeRecording.recording;
+                    window.postMessage({setBsv: true, config, mockData}, '*');
+                }
             });
 
         else if (event.data.bsvExport)
