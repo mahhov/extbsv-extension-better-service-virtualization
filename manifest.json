@@ -2,9 +2,14 @@
   "manifest_version": 2,
   "name": "ebsv-extension-better-service-virtualization",
   "short_name": "ebsv",
-  "version": "1.0",
+  "version": "1.5",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "icon16.png",
     "default_popup": "popup.html"
   },
   "content_scripts": [

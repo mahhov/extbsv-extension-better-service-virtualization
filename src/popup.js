@@ -268,4 +268,4 @@ documentContentLoaded().then(() => {
 // local store and editable config
 // see if we're using chrome.tabs correctly
 // support switching between multiple configs
-// icon
+// unfuzzy icon

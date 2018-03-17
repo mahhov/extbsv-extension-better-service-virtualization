@@ -1,7 +1,7 @@
 {
   "name": "extbsv",
   "scripts": {
-    "build": "[ -d build ] && rm -r build; browserify src/inject.js -o build/inject.js && cp src/{popup.html,popup.js,content.js} resources/icon.png manifest.json build",
+    "build": "[ -d build ] && rm -r build; browserify src/inject.js -o build/inject.js && cp src/{popup.html,popup.js,content.js} resources/*.png manifest.json build",
     "postinstall": "npm run build",
     "dev": "nodemon --watch src -e html,js --exec npm run build",
     "out": "npm run build && zip out/build.zip build/*"
