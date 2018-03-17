@@ -28,7 +28,7 @@ window.addEventListener('message', event => {
             Promise.all([getStorage('disabled'), getStorage('config'), getStorage('activeRecording')]).then(([disabled, config, activeRecording]) => {
                 if (!disabled) {
                     let mockData = activeRecording && activeRecording.recording;
-                    window.postMessage({setBsv: true, config, mockData}, '*');
+                    window.postMessage({setBsv: true, config: config.run, mockData}, '*');
                 }
             });
 

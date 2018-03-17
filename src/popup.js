@@ -60,7 +60,7 @@ let downloadRecording = recording => {
 
 let downloadConfig = () => {
     getConfig().then(config => {
-        download('bsvConfig.js', config);
+        download(config.name, config.run);
     });
 };
 
@@ -137,6 +137,11 @@ let refresh = () => {
             itemEl = createItemEl(recording.name, index);
             listEl.appendChild(itemEl);
         });
+    });
+
+    getConfig().then(config => {
+        console.log(config.name);
+        getEl('configName').innerHTML = config.name;
     });
 };
 
@@ -235,7 +240,7 @@ documentContentLoaded().then(() => {
     getEl('configUpload').addEventListener('click', () => {
         let file = getEl('configFile').files[0];
         file && readFile(file).then(fileContent => {
-            setConfig(fileContent);
+            setConfig({run: fileContent, name: file.name});
             refreshPage();
         });
     });
@@ -263,5 +268,4 @@ documentContentLoaded().then(() => {
 // local store and editable config
 // see if we're using chrome.tabs correctly
 // support switching between multiple configs
-// disable button
-// indicate config file name
+// icon

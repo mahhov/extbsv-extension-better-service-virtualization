@@ -30,6 +30,7 @@
     <hr/>
     <div>
         <h4>manage config</h4>
+        current config: <span id="configName"></span>
         <input id='configFile' type='file'/>
         <button id='configUpload'>&#8679;</button>
         <button id='configDownload'>&#8681;</button>
@@ -40,6 +41,11 @@
 <button id='enable'>enable</button>
 
 <style>
+    h4 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
     .recording-item-name {
         width: 160px;
     }
