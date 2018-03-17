@@ -1,3 +1,5 @@
+// UTILITY
+
 Object.prototype.forEach = function (func) {
     for (let i = 0; i < this.length; i++) {
         func.call(this, this[i]);
@@ -17,6 +19,8 @@ let getEl = id => document.getElementById(id);
 let listEl;
 
 let recordings;
+
+// IMPORTING AN EXPORTING DATA
 
 let getCurrentRecording = () =>
     getBsvExport().then(bsvExport => ({
@@ -60,6 +64,8 @@ let downloadConfig = () => {
     });
 };
 
+// STORAGE
+
 let getStorage = name =>
     new Promise(resolve => {
         chrome.storage.local.get(name, storage => {
@@ -85,6 +91,13 @@ let setActive = recording => {
     setStorage('activeRecording', recording);
 };
 
+let getDisabled = () =>
+    getStorage('disabled');
+
+let setDisabled = value => {
+    setStorage('disabled', value);
+};
+
 let getConfig = () =>
     getStorage('config');
 
@@ -92,7 +105,18 @@ let setConfig = config => {
     setStorage('config', config);
 };
 
+// INIT
+
 let refresh = () => {
+    getDisabled().then(value => {
+        if (value) {
+            getEl('recordingControls').hidden = true;
+            getEl('disable').hidden = true;
+        } else {
+            getEl('enable').hidden = true;
+        }
+    });
+
     getActive().then(activeRecording => {
         if (activeRecording) {
             getEl('recordSection').hidden = true;
@@ -104,9 +128,9 @@ let refresh = () => {
         }
     });
 
-    while (listEl.firstChild) {
+    while (listEl.firstChild)
         listEl.removeChild(listEl.firstChild);
-    }
+
     getRecordings().then(getRecordings => {
         recordings = getRecordings || [];
         recordings.forEach((recording, index) => {
@@ -123,16 +147,21 @@ let refreshPage = () => {
 
 let createItemEl = (name, index) => {
     let itemEl = document.createElement('div');
+
     let nameEl = document.createElement('button');
     nameEl.innerHTML = name;
-    nameEl.style = 'width:160px;';
+    nameEl.classList.add('recording-item-name');
+
     let removeEl = document.createElement('button');
     removeEl.innerHTML = 'X';
+
     let extractEl = document.createElement('button');
     extractEl.innerHTML = '&#8681;';
+
     itemEl.appendChild(nameEl);
     itemEl.appendChild(removeEl);
     itemEl.appendChild(extractEl);
+
     nameEl.addEventListener('click', () => {
         setActive(recordings[index]);
         refreshPage();
@@ -145,8 +174,11 @@ let createItemEl = (name, index) => {
     extractEl.addEventListener('click', () => {
         downloadRecording(recordings[index]);
     });
+
     return itemEl;
 };
+
+// CONTROLLER
 
 let documentContentLoaded = () =>
     new Promise(resolve => {
@@ -212,13 +244,24 @@ documentContentLoaded().then(() => {
         downloadConfig();
     });
 
+    getEl('disable').addEventListener('click', () => {
+        setDisabled(true);
+        refreshPage();
+    });
+
+    getEl('enable').addEventListener('click', () => {
+        setDisabled(false);
+        refreshPage();
+    });
+
     refresh();
 });
 
 // todo
-// reorganize method order in popup.js
 // filter matching urls
 // renaming and reordering records
 // local store and editable config
 // see if we're using chrome.tabs correctly
 // support switching between multiple configs
+// disable button
+// indicate config file name

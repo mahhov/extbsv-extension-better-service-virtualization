@@ -1,24 +1,26 @@
+<!DOCTYPE html>
+
 <script src='popup.js'></script>
 
-<div>
+<div id='recordingControls'>
     <div id='recordSection'>
-        <div><b>recording</b></div>
+        <h4>currently recording</h4>
         <input id='recordingName'/>
         <button id='save'>save</button>
     </div>
     <div id='replaySection'>
-        <div><b>currently replaying <span id='replayName'></span></b></div>
+        <h4>currently replaying <span id='replayName'></span></h4>
         <button id='beginRecord'>begin record</button>
     </div>
     <hr/>
     <div>
-        <div><b>upload recording</b></div>
+        <h4>upload recording</h4>
         <input id='file' type='file' multiple/>
         <button id='upload'>&#8679;</button>
     </div>
     <hr/>
     <div>
-        <div><b>recordings</b></div>
+        <h4>recordings</h4>
         <div id='list'></div>
         <div>
             <button id='clear'>clear</button>
@@ -27,9 +29,23 @@
     </div>
     <hr/>
     <div>
-        <div><b>manage config</b></div>
+        <h4>manage config</h4>
         <input id='configFile' type='file' multiple/>
         <button id='configUpload'>&#8679;</button>
         <button id='configDownload'>&#8681;</button>
     </div>
+    <button id='disable'>disable</button>
 </div>
+
+<button id='enable'>enable</button>
+
+<style>
+    .recording-item-name {
+        width: 160px;
+    }
+
+    #disable {
+        width: 100%;
+        margin-top: 40px;
+    }
+</style>
