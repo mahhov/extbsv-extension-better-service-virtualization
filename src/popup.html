@@ -30,7 +30,7 @@
     <hr/>
     <div>
         <h4>manage config</h4>
-        current config: <span id="configName"></span>
+        current config: <span id='configName'></span>
         <input id='configFile' type='file'/>
         <button id='configUpload'>&#8679;</button>
         <button id='configDownload'>&#8681;</button>
@@ -39,6 +39,13 @@
 </div>
 
 <button id='enable'>enable</button>
+
+<p>
+    powered by
+    <span>
+        <a href='https://www.npmjs.com/package/bsv-better-service-virtualization'>bsv-better-service-virtualization</a>
+    </span>
+</p>
 
 <style>
     h4 {
@@ -52,6 +59,10 @@
 
     #disable {
         width: 100%;
-        margin-top: 40px;
+        margin-top: 30px;
+    }
+    
+    p {
+        font-size: 10px;
     }
 </style>
