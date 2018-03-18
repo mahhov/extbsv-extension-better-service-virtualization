@@ -16,8 +16,6 @@ Object.prototype.map = function (func) {
 
 let getEl = id => document.getElementById(id);
 
-let listEl;
-
 let recordings;
 
 // IMPORTING AN EXPORTING DATA
@@ -117,7 +115,12 @@ let refresh = () => {
         }
     });
 
-    getActive().then(activeRecording => {
+    let listEl = getEl('list');
+
+    while (listEl.firstChild)
+        listEl.removeChild(listEl.firstChild);
+
+    Promise.all([getRecordings(), getActive()]).then(([getRecordings, activeRecording]) => {
         if (activeRecording) {
             getEl('recordSection').hidden = true;
             getEl('replaySection').hidden = false;
@@ -126,15 +129,12 @@ let refresh = () => {
             getEl('replaySection').hidden = true;
             getEl('recordSection').hidden = false;
         }
-    });
 
-    while (listEl.firstChild)
-        listEl.removeChild(listEl.firstChild);
-
-    getRecordings().then(getRecordings => {
         recordings = getRecordings || [];
         recordings.forEach((recording, index) => {
-            itemEl = createItemEl(recording.name, index);
+            recording.index = index;
+            let selected = activeRecording && index === activeRecording.index;
+            itemEl = createItemEl(recording.name, index, selected);
             listEl.appendChild(itemEl);
         });
     });
@@ -153,12 +153,13 @@ let refreshPage = () => {
     window.close();
 };
 
-let createItemEl = (name, index) => {
+let createItemEl = (name, index, selected) => {
     let itemEl = document.createElement('div');
 
     let nameEl = document.createElement('button');
     nameEl.innerHTML = name;
     nameEl.classList.add('recording-item-name');
+    selected && nameEl.classList.add('selected');
 
     let removeEl = document.createElement('button');
     removeEl.innerHTML = 'X';
@@ -197,7 +198,6 @@ let documentContentLoaded = () =>
 
 documentContentLoaded().then(() => {
     let recordingName = getEl('recordingName');
-    listEl = getEl('list');
 
     getEl('save').addEventListener('click', () => {
         getCurrentRecording().then(recording => {
