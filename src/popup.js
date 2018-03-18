@@ -140,8 +140,11 @@ let refresh = () => {
     });
 
     getConfig().then(config => {
-        console.log(config.name);
-        getEl('configName').innerHTML = config.name;
+        if (config && config.name) {
+            getEl('configName').innerHTML = config.name;
+            getEl('configWarning').hidden = true;
+        } else
+            getEl('currentConfig').hidden = true;
     });
 };
 

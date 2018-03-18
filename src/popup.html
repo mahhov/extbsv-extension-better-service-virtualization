@@ -30,11 +30,13 @@
     <hr/>
     <div>
         <h4>manage config</h4>
-        current config: <span id='configName'></span>
+        <div id='currentConfig'>current config: <span id='configName'></span></div>
+        <div id="configWarning">warning missing config</div>
         <input id='configFile' type='file'/>
         <button id='configUpload'>&#8679;</button>
         <button id='configDownload'>&#8681;</button>
     </div>
+
     <button id='disable'>disable</button>
 </div>
 
@@ -57,11 +59,15 @@
         width: 160px;
     }
 
+    #configWarning {
+        background-color: pink;
+    }
+
     #disable {
         width: 100%;
         margin-top: 30px;
     }
-    
+
     p {
         font-size: 10px;
     }
